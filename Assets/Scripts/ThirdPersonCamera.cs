@@ -27,7 +27,7 @@ public class ThirdPersonCamera : MonoBehaviour
      
         yaw += Input.GetAxis("Mouse X") * rotationSpeed;
         pitch -= Input.GetAxis("Mouse Y") * rotationSpeed;
-        //pitch = Mathf.Clamp(pitch, -30f, 60f); // Slope
+        pitch = Mathf.Clamp(pitch, -80f, 50f); // Slope
 
         // Rotation
         Quaternion rotation = Quaternion.Euler(pitch, yaw, 0);
@@ -38,7 +38,7 @@ public class ThirdPersonCamera : MonoBehaviour
         transform.LookAt(target.position);
 
         // Rotate player
-        Quaternion playerRotation = Quaternion.Euler(0, yaw, 0);
+        Quaternion playerRotation = Quaternion.Euler(pitch, yaw, 0);
         target.rotation = Quaternion.Slerp(target.rotation, playerRotation, playerRotationSpeed * Time.deltaTime);
     }
 }
