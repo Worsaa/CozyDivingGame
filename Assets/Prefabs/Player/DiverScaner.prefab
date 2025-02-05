@@ -502,6 +502,7 @@ GameObject:
   - component: {fileID: 2444119772988626268}
   - component: {fileID: 2928724252223517759}
   - component: {fileID: 4703409506943379271}
+  - component: {fileID: 187438898968354760}
   m_Layer: 0
   m_Name: DiverScaner
   m_TagString: Untagged
@@ -608,6 +609,27 @@ MonoBehaviour:
   scanLayer:
     serializedVersion: 2
     m_Bits: 0
+  playerCamera: {fileID: 0}
+  collectionUI: {fileID: 0}
+  ui: {fileID: 0}
+  toggleKey: 9
+--- !u!114 &187438898968354760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6372938117446428144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3d80d1773b7caa4f94ea67e34b857cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _remainingOxygenTimer: 100
+  _maxOxygen: 100
+  _oxygenDecreaseRate: 5
+  _oxygenRegenRate: 10
+  _player: {fileID: 2444119772988626268}
 --- !u!1 &7345063620808302618
 GameObject:
   m_ObjectHideFlags: 0
