@@ -45,6 +45,7 @@ public class DiverController : MonoBehaviour
 
         if (transform.position.y > waterLevel)
         {
+            rb.velocity = movement * 0.5f;
             rb.velocity += Vector3.down * increasedGravity * Time.fixedDeltaTime;
         }
         else
