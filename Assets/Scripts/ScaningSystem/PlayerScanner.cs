@@ -1,15 +1,15 @@
-using System.Collections.ObjectModel;
 using UnityEngine;
 
 public class PlayerScanner : MonoBehaviour
 {
-    public float scanDistance = 25f;
-    public LayerMask scanLayer;
-    public Camera playerCamera;
-    public GameObject collectionUI;
-    public CollectionUI ui;
-    public KeyCode toggleKey = KeyCode.Tab;
-    void Update()
+    [SerializeField] private float scanDistance = 25f;
+    [SerializeField] private LayerMask scanLayer;
+    [SerializeField] private Camera playerCamera;
+    [SerializeField] private GameObject collectionUI;
+    [SerializeField] private CollectionUI collectionUIController;
+    [SerializeField] private KeyCode toggleKey = KeyCode.Tab;
+
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -18,30 +18,32 @@ public class PlayerScanner : MonoBehaviour
         if (Input.GetKeyDown(toggleKey))
         {
             ToggleUI();
-            ui.RefreshUI();
         }
     }
 
-    public void ToggleUI()
+    private void ToggleUI()
     {
-        collectionUI.SetActive(!collectionUI.activeSelf);
+        bool isActive = collectionUI.activeSelf;
+        collectionUI.SetActive(!isActive);
+        if (!isActive)
+        {
+            collectionUIController.RefreshUI();
+        }
     }
-    void ScanForCollectible()
+
+    private void ScanForCollectible()
     {
         Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, scanDistance, scanLayer))
+        if (Physics.Raycast(ray, out RaycastHit hit, scanDistance, scanLayer))
         {
-            CollectibleObject collectible = hit.collider.GetComponent<CollectibleObject>();
-            if (collectible != null)
+            if (hit.collider.TryGetComponent(out CollectibleObject collectible))
             {
                 collectible.Collect();
             }
         }
     }
 
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         if (playerCamera != null)
         {

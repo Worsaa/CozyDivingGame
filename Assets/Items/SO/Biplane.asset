@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f087d65211b27d41a781eec096a6b28, type: 3}
   m_Name: Biplane
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: BiPlane
   itemSprite: {fileID: 21300000, guid: 41d52263a7108364c9368ea55398ff59, type: 3}
-  isCollected: 0
+  isCollected: 1

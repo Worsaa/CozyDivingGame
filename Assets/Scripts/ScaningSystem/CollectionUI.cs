@@ -1,12 +1,21 @@
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class CollectionUI : MonoBehaviour
 {
-    public List<CollectionSlot> slots;
+    [SerializeField] private List<CollectionSlot> slots;
 
-    public void RefreshUI()
+    private void OnEnable()
+    {
+        CollectionManager.Instance.OnItemCollected += RefreshUI;
+    }
+
+    private void OnDisable()
+    {
+        CollectionManager.Instance.OnItemCollected -= RefreshUI;
+    }
+
+    public void RefreshUI(CollectibleItem collectedItem = null)
     {
         foreach (var slot in slots)
         {

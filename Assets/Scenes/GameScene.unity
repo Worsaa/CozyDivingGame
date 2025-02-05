@@ -188,7 +188,7 @@ Transform:
   m_GameObject: {fileID: 177128448}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 608, y: 24, z: 349.9}
+  m_LocalPosition: {x: 608, y: 148.4, z: 349.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -396,6 +396,78 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.7498951, y: 1.0810394, z: -3.909891}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &312450691
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 312450693}
+  - component: {fileID: 312450692}
+  m_Layer: 0
+  m_Name: NVBoids Fish (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &312450692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 312450691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fa35b9623162614881082335023629b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  behavioralCh: {x: 3, y: 6}
+  debug: 0
+  flockNum: 8
+  fragmentedFlock: 900
+  fragmentedFlockYLimit: 0.01
+  migrationFrequency: 0.05
+  posChangeFrequency: 0.35
+  smoothChFrequency: 15
+  birdPref: {fileID: 1534700291726900181, guid: d9e5ebbbbe4e59a4791eee801255a76a, type: 3}
+  birdsNum: 1500
+  birdSpeed: 0.6
+  fragmentedBirds: 25
+  fragmentedBirdsYLimit: 0.15
+  soaring: 0.8
+  verticalWawe: 7
+  rotationClamp: 0
+  rotationClampValue: 50
+  scaleRandom: {x: 2.5, y: 3}
+  danger: 0
+  dangerRadius: 15
+  dangerSpeed: 1.5
+  dangerSoaring: 0.5
+  dangerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  HelpURL: nvjob.github.io/unity/nvjob-boids
+  ReportAProblem: nvjob.github.io/support
+  Patrons: nvjob.github.io/patrons
+--- !u!4 &312450693
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 312450691}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 304.6, y: 44.699997, z: 287.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2488,7 +2560,7 @@ Transform:
   m_GameObject: {fileID: 1887782150}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 304.6, y: -80, z: 382.6}
+  m_LocalPosition: {x: 304.6, y: 44.7, z: 382.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3241,7 +3313,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2444119772988626268, guid: 230bf0e5bd1bcc14fac1ef834f00fa0d, type: 3}
       propertyPath: waterLevel
-      value: 68
+      value: 67
       objectReference: {fileID: 0}
     - target: {fileID: 2444119772988626268, guid: 230bf0e5bd1bcc14fac1ef834f00fa0d, type: 3}
       propertyPath: rotationSpeed
@@ -3492,6 +3564,7 @@ SceneRoots:
   - {fileID: 1729661315}
   - {fileID: 177128450}
   - {fileID: 1887782152}
+  - {fileID: 312450693}
   - {fileID: 6584174315509937913}
   - {fileID: 290353624}
   - {fileID: 1794437685}

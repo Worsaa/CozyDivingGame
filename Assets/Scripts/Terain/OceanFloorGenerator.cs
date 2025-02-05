@@ -60,11 +60,16 @@ public class OceanFloorGenerator : MonoBehaviour
                 GameObject chunk = new GameObject($"Chunk_{x}_{z}");
                 chunk.transform.parent = transform;
                 chunk.transform.position = new Vector3(startPosition.x + x, startPosition.y, startPosition.z + z);
+                chunk.layer = LayerMask.NameToLayer("Ground");
 
                 MeshFilter mf = chunk.AddComponent<MeshFilter>();
                 MeshRenderer mr = chunk.AddComponent<MeshRenderer>();
                 mr.sharedMaterial = sharedMaterial;
-                mf.mesh = GenerateMesh(x, z);
+                Mesh mesh = GenerateMesh(x, z);
+                mf.mesh = mesh;
+
+                MeshCollider mc = chunk.AddComponent<MeshCollider>();
+                mc.sharedMesh = mesh;
             }
         }
     }
@@ -125,7 +130,7 @@ public class OceanFloorGenerator : MonoBehaviour
             usedPositions.Add(pos);
             if (!heightMap.TryGetValue(pos, out float y))
                 continue;
-           
+
             Vector3 spawnPos = new Vector3(pos.x + startPosition.x, y, pos.y + startPosition.z);
             Instantiate(prefab, spawnPos, Quaternion.identity);
         }

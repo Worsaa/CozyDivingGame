@@ -9,6 +9,11 @@ public class SubmarineController : MonoBehaviour
     public float buoyancy = 0.1f;
     public Transform exitPoint;
     public Animator animator;
+    public ParticleSystem[] engineEffects;
+    public ParticleSystem[] boostEffects;
+    public ParticleSystem sandEffect;
+    public float sandEffectDistance = 3f;
+    public LayerMask groundLayer;
 
     private bool isPlayerInside = false;
     private GameObject player;
@@ -30,12 +35,13 @@ public class SubmarineController : MonoBehaviour
         {
             Quaternion cameraRotation = cameraController.GetCameraRotation();
             Vector3 forwardDirection = cameraRotation * Vector3.forward;
-
             float input = Input.GetAxis("Vertical");
+            bool isBoosting = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
 
             if (input != 0)
             {
-                currentSpeed += input * acceleration * Time.deltaTime;
+                float speedModifier = isBoosting ? 2f : 1f;
+                currentSpeed += input * acceleration * speedModifier * Time.deltaTime;
                 currentSpeed = Mathf.Clamp(currentSpeed, -maxSpeed, maxSpeed);
             }
             else
@@ -52,10 +58,45 @@ public class SubmarineController : MonoBehaviour
             animator.SetBool("isWalking", isMoving);
             animator.SetBool("isRunning", isFast);
 
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (input > 0)
             {
-                ExitSubmarine();
+                foreach (ParticleSystem ps in engineEffects)
+                {
+                    if (!ps.isPlaying) ps.Play();
+                }
+
+                if (isBoosting)
+                {
+                    foreach (ParticleSystem ps in boostEffects)
+                    {
+                        if (!ps.isPlaying) ps.Play();
+                    }
+                }
+                else
+                {
+                    foreach (ParticleSystem ps in boostEffects)
+                    {
+                        if (ps.isPlaying) ps.Stop();
+                    }
+                }
             }
+            else
+            {
+                foreach (ParticleSystem ps in engineEffects)
+                {
+                    if (ps.isPlaying) ps.Stop();
+                }
+
+                foreach (ParticleSystem ps in boostEffects)
+                {
+                    if (ps.isPlaying) ps.Stop();
+                }
+            }
+
+            CheckSandEffect(isMoving);
+
+            if (Input.GetKeyDown(KeyCode.Q))
+                ExitSubmarine();
         }
     }
 
@@ -68,20 +109,32 @@ public class SubmarineController : MonoBehaviour
         }
     }
 
+    void CheckSandEffect(bool isMoving)
+    {
+        if (isMoving)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, Vector3.down, out hit, sandEffectDistance, groundLayer))
+            {
+                if (!sandEffect.isPlaying)
+                    sandEffect.Play();
+                return;
+            }
+        }
+        if (sandEffect.isPlaying)
+            sandEffect.Stop();
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
-        {
             player = other.gameObject;
-        }
     }
 
     void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.E) && !isPlayerInside)
-        {
             EnterSubmarine();
-        }
     }
 
     void EnterSubmarine()

@@ -3,8 +3,8 @@ using UnityEngine.UI;
 
 public class CollectionSlot : MonoBehaviour
 {
-    public Image itemImage;
-    public CollectibleItem assignedItem;
+    [SerializeField] private Image itemImage;
+    [SerializeField] private CollectibleItem assignedItem;
 
     public void UpdateSlot()
     {

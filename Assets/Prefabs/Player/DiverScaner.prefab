@@ -502,9 +502,10 @@ GameObject:
   - component: {fileID: 2444119772988626268}
   - component: {fileID: 2928724252223517759}
   - component: {fileID: 4703409506943379271}
+  - component: {fileID: 1178964984853614531}
   m_Layer: 0
   m_Name: DiverScaner
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -560,11 +561,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  rotationSpeed: 5
+  rotationSpeed: 4
   cameraTransform: {fileID: 0}
   animator: {fileID: 2493974929039281725}
-  waterLevel: -27
-  increasedGravity: 5
+  waterLevel: 67
+  increasedGravity: 200
 --- !u!54 &2928724252223517759
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -573,7 +574,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6372938117446428144}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 80
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -604,10 +605,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe444898ad3e36b40bd7809295101982, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scanDistance: 5
+  scanDistance: 12
   scanLayer:
     serializedVersion: 2
+    m_Bits: 8
+  playerCamera: {fileID: 0}
+  collectionUI: {fileID: 0}
+  collectionUIController: {fileID: 0}
+  toggleKey: 9
+--- !u!136 &1178964984853614531
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6372938117446428144}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
     m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.46696854, z: 0}
 --- !u!1 &7345063620808302618
 GameObject:
   m_ObjectHideFlags: 0

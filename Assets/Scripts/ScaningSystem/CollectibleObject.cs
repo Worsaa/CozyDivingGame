@@ -2,16 +2,14 @@ using UnityEngine;
 
 public class CollectibleObject : MonoBehaviour
 {
-    public CollectibleItem collectibleData;
-    private bool isCollected = false;
+    [SerializeField] private CollectibleItem collectibleData;
 
     public void Collect()
     {
-        if (!isCollected)
-        {
-            isCollected = true;
-            CollectionManager.Instance.CollectItem(collectibleData);
-            //gameObject.SetActive(false); 
-        }
+        if (collectibleData.isCollected)
+            return;
+
+        collectibleData.isCollected = true;
+        CollectionManager.Instance.CollectItem(collectibleData);
     }
 }
