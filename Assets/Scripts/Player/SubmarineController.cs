@@ -7,13 +7,18 @@ public class SubmarineController : MonoBehaviour
     public float deceleration = 1f;
     public float rotationSpeed = 2f;
     public float buoyancy = 0.1f;
+    public float waterLevel = 0f;
+    public float increasedGravity = 5f;
     public Transform exitPoint;
     public Animator animator;
     public ParticleSystem[] engineEffects;
     public ParticleSystem[] boostEffects;
     public ParticleSystem sandEffect;
+    public ParticleSystem softCrashEffect;
+    public ParticleSystem hardCrashEffect;
     public float sandEffectDistance = 3f;
     public LayerMask groundLayer;
+    public LayerMask sandLayer;
 
     private bool isPlayerInside = false;
     private GameObject player;
@@ -27,14 +32,16 @@ public class SubmarineController : MonoBehaviour
         cameraController = FindObjectOfType<ThirdPersonCamera>();
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
+        moveDirection = transform.forward;
     }
 
     void Update()
     {
         if (isPlayerInside)
         {
-            Quaternion cameraRotation = cameraController.GetCameraRotation();
-            Vector3 forwardDirection = cameraRotation * Vector3.forward;
+            bool freeLook = Input.GetKey(KeyCode.C);
+            Quaternion camRot = cameraController.GetCameraRotation();
+            Vector3 forwardDirection = freeLook ? transform.forward : (camRot * Vector3.forward);
             float input = Input.GetAxis("Vertical");
             bool isBoosting = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
 
@@ -49,48 +56,40 @@ public class SubmarineController : MonoBehaviour
                 currentSpeed = Mathf.Lerp(currentSpeed, 0, deceleration * Time.deltaTime);
             }
 
-            moveDirection = forwardDirection.normalized * currentSpeed;
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(forwardDirection), rotationSpeed * Time.deltaTime);
+            if (!freeLook)
+                moveDirection = forwardDirection.normalized * currentSpeed;
+            else
+                moveDirection = transform.forward * currentSpeed;
+
+            if (!freeLook)
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(forwardDirection), rotationSpeed * Time.deltaTime);
 
             bool isMoving = Mathf.Abs(currentSpeed) > 0.1f;
             bool isFast = Mathf.Abs(currentSpeed) > maxSpeed * 0.5f;
-
             animator.SetBool("isWalking", isMoving);
             animator.SetBool("isRunning", isFast);
 
             if (input > 0)
             {
                 foreach (ParticleSystem ps in engineEffects)
-                {
                     if (!ps.isPlaying) ps.Play();
-                }
-
                 if (isBoosting)
                 {
                     foreach (ParticleSystem ps in boostEffects)
-                    {
                         if (!ps.isPlaying) ps.Play();
-                    }
                 }
                 else
                 {
                     foreach (ParticleSystem ps in boostEffects)
-                    {
                         if (ps.isPlaying) ps.Stop();
-                    }
                 }
             }
             else
             {
                 foreach (ParticleSystem ps in engineEffects)
-                {
                     if (ps.isPlaying) ps.Stop();
-                }
-
                 foreach (ParticleSystem ps in boostEffects)
-                {
                     if (ps.isPlaying) ps.Stop();
-                }
             }
 
             CheckSandEffect(isMoving);
@@ -104,8 +103,23 @@ public class SubmarineController : MonoBehaviour
     {
         if (isPlayerInside)
         {
-            rb.velocity = moveDirection;
-            rb.velocity += Vector3.up * buoyancy * Time.fixedDeltaTime;
+            if (transform.position.y > waterLevel)
+            {
+                rb.velocity = moveDirection * 0.5f;
+                rb.velocity += Vector3.down * increasedGravity * Time.fixedDeltaTime;
+            }
+            else
+            {
+                rb.velocity = moveDirection;
+                rb.velocity += Vector3.up * buoyancy * Time.fixedDeltaTime;
+            }
+        }
+        else
+        {
+            if (transform.position.y > waterLevel)
+            {
+                rb.velocity += Vector3.down * increasedGravity * Time.fixedDeltaTime;
+            }
         }
     }
 
@@ -123,6 +137,29 @@ public class SubmarineController : MonoBehaviour
         }
         if (sandEffect.isPlaying)
             sandEffect.Stop();
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        ContactPoint contact = collision.contacts[0];
+        if (collision.gameObject.CompareTag("Stone"))
+        {
+            if (hardCrashEffect != null)
+            {
+                ParticleSystem effect = Instantiate(hardCrashEffect, contact.point, Quaternion.LookRotation(contact.normal));
+                effect.Play();
+                Destroy(effect.gameObject, effect.main.duration + effect.main.startLifetime.constant);
+            }
+        }
+        else if (((1 << collision.gameObject.layer) & sandLayer.value) != 0)
+        {
+            if (softCrashEffect != null)
+            {
+                ParticleSystem effect = Instantiate(softCrashEffect, contact.point, Quaternion.LookRotation(contact.normal));
+                effect.Play();
+                Destroy(effect.gameObject, effect.main.duration + effect.main.startLifetime.constant);
+            }
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -150,5 +187,11 @@ public class SubmarineController : MonoBehaviour
         player.SetActive(true);
         player.transform.position = exitPoint.position;
         cameraController.SetTarget(player.transform, false);
+        animator.SetBool("isWalking", false);
+        animator.SetBool("isRunning", false);
+        foreach (ParticleSystem ps in engineEffects)
+            if (ps.isPlaying) ps.Stop();
+        foreach (ParticleSystem ps in boostEffects)
+            if (ps.isPlaying) ps.Stop();
     }
 }
