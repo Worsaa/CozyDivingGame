@@ -105,20 +105,20 @@ public class SubmarineController : MonoBehaviour
         {
             if (transform.position.y > waterLevel)
             {
-                rb.velocity = moveDirection * 0.5f;
-                rb.velocity += Vector3.down * increasedGravity * Time.fixedDeltaTime;
+                rb.linearVelocity = moveDirection * 0.5f;
+                rb.linearVelocity += Vector3.down * increasedGravity * Time.fixedDeltaTime;
             }
             else
             {
-                rb.velocity = moveDirection;
-                rb.velocity += Vector3.up * buoyancy * Time.fixedDeltaTime;
+                rb.linearVelocity = moveDirection;
+                rb.linearVelocity += Vector3.up * buoyancy * Time.fixedDeltaTime;
             }
         }
         else
         {
             if (transform.position.y > waterLevel)
             {
-                rb.velocity += Vector3.down * increasedGravity * Time.fixedDeltaTime;
+                rb.linearVelocity += Vector3.down * increasedGravity * Time.fixedDeltaTime;
             }
         }
     }

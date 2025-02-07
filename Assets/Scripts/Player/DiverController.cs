@@ -58,10 +58,10 @@ public class DiverController : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.velocity = moveDirection * currentSpeed;
+        rb.linearVelocity = moveDirection * currentSpeed;
         if (transform.position.y > waterLevel)
         {
-            rb.velocity += Vector3.down * increasedGravity * Time.fixedDeltaTime;
+            rb.linearVelocity += Vector3.down * increasedGravity * Time.fixedDeltaTime;
         }
     }
 }
