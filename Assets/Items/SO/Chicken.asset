@@ -15,3 +15,4 @@ MonoBehaviour:
   itemName: Chicken
   itemSprite: {fileID: 21300000, guid: d312f89701eecc2499d7e62f564f1f39, type: 3}
   isCollected: 0
+  rarity: 3

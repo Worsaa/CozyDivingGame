@@ -8,7 +8,6 @@ public class CollectibleObject : MonoBehaviour
     {
         if (collectibleData.isCollected)
             return;
-
         collectibleData.isCollected = true;
         CollectionManager.Instance.CollectItem(collectibleData);
     }

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f087d65211b27d41a781eec096a6b28, type: 3}
   m_Name: Cat
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: Cat
   itemSprite: {fileID: 21300000, guid: 6b9cab96018519b44bde218b0749d607, type: 3}
   isCollected: 0
+  rarity: 1
