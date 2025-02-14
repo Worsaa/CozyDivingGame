@@ -21,6 +21,7 @@ public class OceanFloorGenerator : MonoBehaviour
     public float canyonScale = 0.05f;
 
     private Material sharedMaterial;
+    public Material causticsMaterial;
     private Dictionary<Vector2Int, float> heightMap = new Dictionary<Vector2Int, float>();
 
     private void Start()
@@ -64,7 +65,9 @@ public class OceanFloorGenerator : MonoBehaviour
 
                 MeshFilter mf = chunk.AddComponent<MeshFilter>();
                 MeshRenderer mr = chunk.AddComponent<MeshRenderer>();
-                mr.sharedMaterial = sharedMaterial;
+
+                mr.sharedMaterials = new Material[] { sharedMaterial, causticsMaterial };
+
                 Mesh mesh = GenerateMesh(x, z);
                 mf.mesh = mesh;
 
