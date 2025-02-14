@@ -14,6 +14,7 @@ public class CausticsAnimator : MonoBehaviour
         {
             offset.x += Time.deltaTime * speedX;
             offset.y += Time.deltaTime * speedY;
+
             causticsMaterial.SetVector("_CausticsOffset", offset);
         }
     }
